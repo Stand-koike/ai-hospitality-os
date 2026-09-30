@@ -14,6 +14,7 @@
 
 - **`docs/`** — プロダクト設計（01 ブランドブック 〜 09 ロードマップ）
 - **`decision-log/`** — ADR 形式の重要意思決定
+- **`specs/`** — Phase 1 実装仕様・出口条件
 - **`apps/`** — Phase 1 MVP 実装（未着手）
 
 別プロダクト（例：PDF ジェスチャー MVP）のコードは **含めません**。
@@ -26,6 +27,7 @@
 4. [docs/04_DOMAIN_MODEL.md](docs/04_DOMAIN_MODEL.md)
 5. [docs/05_UI_UX.md](docs/05_UI_UX.md)
 6. [decision-log/](decision-log/) — 特に予約取り込み・PMS との境界
+7. [specs/phase-1-implementation.md](specs/phase-1-implementation.md) · [specs/phase-1-exit-criteria.md](specs/phase-1-exit-criteria.md)
 
 ## Phase 1 の境界（要約）
 
@@ -40,10 +42,8 @@
 
 ## 開発ステータス
 
-- **Phase 0**：プロダクト定義ドキュメント整備（本リポジトリ）
-- **Phase 1**：MVP Build — [docs/09_ROADMAP.md](docs/09_ROADMAP.md)
-
-実装仕様（Implementation Specification）確定後は `specs/` に配置する想定。
+- **Phase 0**：プロダクト定義ドキュメント整備 — **完了**
+- **Phase 1**：MVP Build — 仕様は `specs/`、実装は `apps/`（**未着手**） — [docs/09_ROADMAP.md](docs/09_ROADMAP.md)
 
 ## ライセンス
 

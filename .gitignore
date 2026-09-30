@@ -24,3 +24,6 @@ npm-debug.log*
 
 # clasp / GAS (if used later)
 .clasp.json
+
+# Bootstrap / export patches (apply once; do not version)
+*.patch
