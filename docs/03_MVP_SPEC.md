@@ -1,5 +1,5 @@
 # 藍 ai — MVP Specification
-**バージョン**：v0.2  
+**バージョン**：v0.3  
 **ステータス**：MVP 仕様（実装前）  
 **前提ドキュメント**：[README.md](../README.md) · [01_BRAND_BOOK.md](./01_BRAND_BOOK.md) · [02_PRODUCT_DEFINITION.md](./02_PRODUCT_DEFINITION.md) · [decision-log/](../decision-log/)
 ## 1. MVP Definition
@@ -26,6 +26,7 @@ MVP が直接狙う成果指標は、売上・評価・再訪率ではない。�
 
 - 予約メール解析は MVP に含めない：[20260918-no-reservation-email-parsing.md](../decision-log/20260918-no-reservation-email-parsing.md)
 - パイロット施設：[20260918-model-property-pilot.md](../decision-log/20260918-model-property-pilot.md)
+- 予約取り込みの位置づけ（PMS 共存・Phase 1 経路）：[20260918-reservation-ingestion-positioning.md](../decision-log/20260918-reservation-ingestion-positioning.md)
 
 ## 2. MVP Goals
 | 目標 | 内容 |
@@ -67,7 +68,7 @@ Timeline
 ### 5.2 予約が入ったとき（体験 C）
 
 ```
-予約データが藍 ai に入る（取り込み経路：未決定）
+予約データが藍 ai に入る（手動 / 標準 CSV / 表データ — [§6.1](#61-reservation-ingestion)）
   ↓
 Guest Resolution（候補提示）
   ↓ 一致情報の確認
@@ -88,22 +89,44 @@ Today's Brief
 ## 6. Feature Specifications
 以下、各機能を同一フォーマットで定義する。
 ---
-### 6.1 OTA Reservation Ingestion
-（名称は「OTA 予約の取り込み」。**OTA メール解析ではない**。）
+### 6.1 Reservation Ingestion
+
+藍 ai は **PMS の代替ではない**（[ADR](../decision-log/20260918-reservation-ingestion-positioning.md)）。予約の正本は施設の予約管理ソフト（または個人経営の運用手段）に置き、藍 ai は **Guest-centered の理解・記録・共有**の入力として予約を載せる。
+
+**OTA メール解析・Make / Google Sheets / Google Calendar を連携前提にしない**（別案件の自動化基盤を仕様に含めない）。
+
 #### Purpose
+
 予約データが **藍 ai 上に存在**し、Guest Resolution・Today's Brief の入力になる状態を作る。
+
 #### Current Problem
+
 予約は OTA・電話・直接予約など複数経路に散らばり、**「今日誰が来るか」「この予約は以前のお客様か」** がシステムを横断して見えない。紙・頭・個人のメモに依存し、引き継ぎで文脈が消える。
+
 #### Behavior Change
-- 予約が発生したら、スタッフが **藍 ai を開いて予約を確認する**（取り込み操作は経路に依存するが、確認の習慣は共通）。
+
+- スタッフは **予約管理ソフト（または表）で予約を管理した後**、藍 ai に **エクスポート取込または手入力**で予約を載せる（二重入力は UX・運用で最小化を検証）。
+- 予約が発生したら、スタッフが **藍 ai を開いて予約を確認する**。
 - 予約を見たスタッフが **「このお客様は以前にも来ているかもしれない」** と気付き、Guest Resolution に進む行動が生まれる（体験 C の入口）。
+
+#### Phase 1 取り込み経路（確定：ADR）
+
+| 経路 | 説明 | Phase 1 |
+|------|------|---------|
+| **手動登録** | 単発予約・フォールバック。最小フィールドで 1 件登録 | ○ |
+| **標準 CSV インポート** | 各 PMS の **CSV 出力**を、藍 ai **標準 CSV テンプレート**に合わせて取り込む（PMS 別マッピングは将来） | ○ |
+| **表データ（スプレッドシート運用）** | 個人経営など PMS を使わない施設向け。**編集 UI は表**、取り込み形式は **標準 CSV と同一経路** | ○ |
+| OTA / PMS **API 直接連携** | 正式 Integration 候補 | **Phase 1 前提にしない** |
+| 予約メール解析 | Make / Gmail 等 | **MVP 外**（ADR） |
+
+実装の正本列定義は [specs/phase-1-implementation.md](../specs/phase-1-implementation.md) §2。
 
 #### User Flow
 
 ```
-（未決定：手動登録 / ファイル取込 / API 等）
-  ↓
-予約がシステム上に 1 件として存在
+PMS 等で予約管理
+  ↓ CSV 出力 or 手動 / 表から標準 CSV 相当
+藍 ai に予約が 1 件として存在
   ↓
 Guest Resolution フローへ（6.2）
   ↓
@@ -112,35 +135,38 @@ Today's Brief に本日到着として反映
 
 #### Information Displayed
 
-MVP で予約レコードに持たせる情報（**各項目の必須/任意は未決定**）：
+MVP で予約レコードに持たせる情報（必須最小は Phase 1 仕様で固定。以下は概念）：
 
-- 宿泊者名（または代表者名）
+- 宿泊者名（予約上の氏名 → ドメイン `booker_name`）
 - チェックイン日・チェックアウト日
-- 連絡先（電話・メール等）
-- 予約の取り込み元・登録日時（監査用の最小メタデータ：**要検証**）
+- 連絡先（電話・メール：**CSV 必須かは Minor Decision**）
+- 外部予約 ID（再取込の重複回避）
+- 取り込み元・登録日時（import metadata）
 - Guest 紐付け状態（未解決 / 紐付け済）
 
 #### Input
 
-- **取り込み経路：未決定**（手動、CSV、OTA API、エクスポート等は **仮説・将来検討** のみ。いずれも採用を確定しない）
-- 経路が決まるまで、仕様上は「予約データを藍 ai に登録できること」だけを要求する
+- Phase 1：**手動登録**、**標準 CSV ファイル**、**表データ入力**（いずれも藍 ai 内の機能）
+- **含めない**：Make 連携、Sheets を DB にする設計、メール解析、OTA/PMS API（Phase 1）
 - 新規入力項目を増やす場合は、行動変容とセットで再評価する（原則 4）
 
 #### AI Usage
 
-MVP では **予約取り込みそのものに AI は必須としない**（未決定：将来の抽出支援は Phase 2 以降）。
+MVP では **予約取り込みそのものに AI は必須としない**（将来の抽出支援は Phase 2 以降）。
 
 #### Acceptance Criteria
 
 - パイロット施設（7 室）で、**当日および将来の到着予約**が藍 ai 上で一覧できる。
+- **標準 CSV**および**手動**で予約を登録できる。
+- 同一 `external_reservation_id` の **再取込で重複レコードを作らない**（Phase 1 exit criteria）。
 - 予約作成後、**未紐付けの予約**が識別でき、Guest Resolution に遷移できる。
-- **予約メール解析に依存しない**（ADR 準拠）。
+- **予約メール解析・Make/Sheets 連携に依存しない**（ADR 準拠）。
 
 #### Open Questions
 
-- 具体的な取り込み経路（**未決定**）
-- 部屋番号・部屋タイプ・人数・料金を MVP で持つか（**未決定**）
-- 複数 OTA チャネルの識別方法（**未決定**）
+- CSV の **email / phone 必須**（実装開始前の Minor Decision）
+- 部屋番号・部屋タイプ・人数・料金を MVP で持つか（**未決定** — Phase 1 仕様では `room`・`guest_count` は任意列）
+- PMS 別 CSV マッピングプロファイル（**Phase 1 外**）
 
 ### 6.2 Guest Identity / Guest Resolution
 #### Purpose
@@ -516,7 +542,7 @@ MVP 仕様レベルで守るデータ原則（詳細は `04_DOMAIN_MODEL.md`）�
 
 | 項目 | 状態 |
 |------|------|
-| OTA / 予約の取り込み方法 | **未決定** |
+| OTA / 予約の取り込み方法 | **Phase 1：手動 + 標準 CSV + 表（ADR）**。API は将来 |
 | Guest Resolution の照合ルール・必須項目 | **未決定** |
 | AI モデル・インフラ | **未決定** |
 | データベース | **未決定** |
@@ -535,7 +561,7 @@ MVP 仕様レベルで守るデータ原則（詳細は `04_DOMAIN_MODEL.md`）�
 
 ### この MVP で作るもの
 
-1. **予約データが藍 ai に入る**仕組み（経路は未決定だが、状態は作る）  
+1. **予約データが藍 ai に入る**仕組み（Phase 1：手動 + 標準 CSV + 表）  
 2. **Guest Resolution**（人の確認付き紐付け）  
 3. **Today's Brief**（ホーム）  
 4. **Guest Summary**（体験 A）  
@@ -566,3 +592,4 @@ MVP 仕様レベルで守るデータ原則（詳細は `04_DOMAIN_MODEL.md`）�
 
 | 2026-09-18 | v0.1 初版 |
 | 2026-09-18 | v0.2 PO 指定構成へ全面改訂（行動変容・Guest Resolution 詳細・Paper MVP 確定・取り込み未決定） |
+| 2026-09-30 | v0.3 §6.1 Reservation Ingestion — ADR 整合（PMS 共存・手動/標準 CSV/表・Make/Sheets 非前提） |

@@ -53,7 +53,7 @@
 | 項目 | 内容 |
 |------|------|
 | **目的** | 定義した MVP を **実装**し、実際に使える状態にする |
-| **対象**（[03](./03_MVP_SPEC.md)、[05](./05_UI_UX.md) と整合） | Reservation ingestion（**経路未決定**）、Guest Resolution、Today's Brief、Guest Summary、Timeline、Paper Output、AI Guest History Summary |
+| **対象**（[03](./03_MVP_SPEC.md)、[05](./05_UI_UX.md) と整合） | Reservation ingestion（**手動 + 標準 CSV + 表** — [ADR](../decision-log/20260918-reservation-ingestion-positioning.md)）、Guest Resolution、Today's Brief、Guest Summary、Timeline、Paper Output、AI Guest History Summary |
 | **制約** | **MVP 外機能を追加しない**（§6） |
 
 ### Phase 2 — Pilot
@@ -202,7 +202,7 @@ Phase 5 で列挙する候補も、**パイロット・Productization の検証�
 
 **現在フェーズ**：Phase 0 完了 → **Phase 1（MVP Build）待ち**。
 
-パイロット施設の具体・予約取り込み経路は **未決定**（decision-log、03・08）。
+パイロット施設の具体（名称・地域・OTA）は **未決定**。予約取り込み経路は **Phase 1 で手動 + 標準 CSV + 表**（decision-log、03・[specs/phase-1-implementation.md](../specs/phase-1-implementation.md)）。
 
 ---
 
@@ -226,3 +226,4 @@ Phase 5 で列挙する候補も、**パイロット・Productization の検証�
 | 日付 | 内容 |
 |------|------|
 | 2026-09-18 | v0.1 初版（フェーズ・検証条件の整理） |
+| 2026-09-30 | Phase 1 ingestion を ADR 経路に更新 |

@@ -39,7 +39,7 @@
 
 | 項目 | 状態 |
 |------|------|
-| 予約データの取り込み経路 | **未決定** |
+| 予約データの取り込み経路 | **Phase 1：手動 + 標準 CSV + 表**（ADR）。API は将来。メール解析 × |
 | Reservation の必須属性（部屋・人数・料金等） | **未決定** |
 | Guest 照合ルール・必須キー | **未決定** |
 | Stay と Reservation の 1:1 / 1:N、キャンセル・ノーショウ | **要検証** |
@@ -151,7 +151,7 @@ Guest の「マージ」（二人を一つにする）は **人の操作**が前
 ### 5.1 責務
 
 - **未来または進行中の宿泊予約**という一次イベントを表す。
-- 取り込み経路（OTA 等）に依存しない **共通の予約レコード**（経路自体は [03 §6.1](./03_MVP_SPEC.md) **未決定**）。
+- 取り込み経路（PMS CSV・手動・表）に依存しない **共通の予約レコード**（経路は [03 §6.1](./03_MVP_SPEC.md)・[specs/phase-1-implementation.md](../specs/phase-1-implementation.md)）。
 - Guest Resolution の **トリガー**となるオブジェクト。
 
 ### 5.2 主要属性（論理モデル）
@@ -165,7 +165,8 @@ Guest の「マージ」（二人を一つにする）は **人の操作**が前
 | `check_in_date` | チェックイン日 | 必須 |
 | `check_out_date` | チェックアウト日 | 必須 |
 | `contact_email` / `contact_phone` | 予約時点の連絡先 | **未決定**（必須セット） |
-| `source` | 取り込み元ラベル | **未決定** |
+| `source` | 取り込み元ラベル（`manual` / `csv_import` / `table_import` 等） | Phase 1 で最小セット |
+| `external_reservation_id` | PMS 等の外部予約 ID（再取込の一意キー） | Phase 1 必須 |
 | `created_at` | システム登録日時 | 必須 |
 
 **未決定のまま残す候補**：部屋番号、人数、料金、OTA 予約番号、キャンセル理由。
@@ -446,3 +447,4 @@ Reservation.guest_id 設定、status = linked
 | 日付 | 内容 |
 |------|------|
 | 2026-09-18 | v0.1 初版（03 v0.3 準拠の最小 Guest 中心モデル） |
+| 2026-09-30 | 取り込み経路 ADR 反映、`external_reservation_id` を Phase 1 属性に追加 |

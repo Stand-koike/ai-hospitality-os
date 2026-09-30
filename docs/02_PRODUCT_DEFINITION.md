@@ -107,18 +107,23 @@
 
 | # | 機能 | 行動変容（設計問いへの回答） |
 |---|------|------------------------------|
-| 1 | 予約データの取り込み（OTA 等） | 予約情報を一箇所で追い、到着前の準備に使う |
+| 1 | 予約データの取り込み（Reservation Ingestion） | PMS 等で管理した予約を藍 ai に載せ、到着前の準備に使う |
 | 2 | Guest Identity / Guest Resolution | 過去の関係性があるか確認し、Guest に紐付ける |
 | 3 | Today's Brief（ホーム） | チェックイン前に今日のお客様を確認する |
 | 4 | Guest Summary | 選択したお客様の文脈を一望する |
 | 5 | Timeline | 時系列で過去を振り返り、配慮すべき情報も踏まえる |
 | 6 | Paper Output | 朝礼・紙でチームに共有する（**フォーマット・要否の詳細：未決定**） |
 
-### 予約データの取得（PO 決定 2026-09-18）
+### 予約データの取得（PO 決定 2026-09-18、ADR 2026-09-18）
 
-- **MVP に予約メール解析は含めない**（Make / Sheets / Calendar 等のメール解析パイプラインはスコープ外）
-- 体験 C を満たすため、**別の取り込み経路**が必要：**未決定**（例：OTA API、CSV、手動 — いずれも仮説、採用は `03_MVP_SPEC` で決定）
-- 詳細：[decision-log/20260918-no-reservation-email-parsing.md](../decision-log/20260918-no-reservation-email-parsing.md)
+- **藍 ai は PMS の代替ではない**。予約の正本は施設の予約管理ソフト（または個人経営の運用）に置き、藍 ai は **Guest-centered の理解・記録・共有**に集中する。
+- **MVP に予約メール解析は含めない**（Make / Google Sheets / Google Calendar を連携前提・参照実装にしない）
+- **Phase 1 の取り込み経路（確定）**：
+  - **手動登録**（フォールバック）
+  - **CSV インポート**（PMS の CSV 出力 → 藍 ai **標準 CSV テンプレート**）
+  - **表データ運用**（個人経営向け。編集は表 UI、取り込みは標準 CSV と同一経路）
+- **OTA / PMS API 直接連携**は Phase 1 の前提にしない（将来の Integration 候補）
+- 詳細：[decision-log/20260918-no-reservation-email-parsing.md](../decision-log/20260918-no-reservation-email-parsing.md) · [decision-log/20260918-reservation-ingestion-positioning.md](../decision-log/20260918-reservation-ingestion-positioning.md) · [03_MVP_SPEC.md §6.1](03_MVP_SPEC.md)
 
 ---
 
@@ -222,7 +227,7 @@ Guest
 
 **未決定**
 
-1. 予約データの **取り込み経路**（メール解析以外で何を MVP に入れるか）
+1. 予約 CSV の **連絡先必須**（email / phone）と Guest Resolution **保留**を Phase 1 に含めるか（Minor Decision）
 2. モデル施設の **地域・OTA チャネル・スタッフ体制**
 3. Guest Resolution の **照合ルール**（氏名・電話・メールの優先度、同一人物判定の人間確認フロー）
 4. Timeline 上の **センシティブ情報** の表示・権限・削除ポリシー
@@ -237,3 +242,4 @@ Guest
 |------|------|
 | 2026-09-18 | 初版作成 |
 | 2026-09-18 | PO 回答：メール解析除外、モデル施設 7 室、Paper 未定 |
+| 2026-09-30 | ADR 反映：PMS 共存、Phase 1 手動/標準 CSV/表、Make/Sheets 非前提 |
