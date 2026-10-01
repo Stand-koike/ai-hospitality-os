@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "verify:foundation": "tsx scripts/verify-foundation.ts",
     "verify:import": "tsx scripts/verify-import.ts",
-    "verify:resolution": "tsx scripts/verify-resolution.ts"
+    "verify:resolution": "tsx scripts/verify-resolution.ts",
+    "verify:brief": "tsx scripts/verify-brief.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.10.0",
