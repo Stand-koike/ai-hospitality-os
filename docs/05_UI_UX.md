@@ -452,7 +452,7 @@ AI Summary の保存・更新タイミング・文字量は **未決定**（§12
 
 | # | 項目 |
 |---|------|
-| 1 | Desktop / Tablet / Mobile の優先順位 |
+| 1 | Desktop / Tablet / Mobile の優先順位 — **Phase 1 方針は [decision-log/20261001-device-strategy-phase1.md](../decision-log/20261001-device-strategy-phase1.md)**（メイン＝タブレット/PC、モバイル＝確認・メモ、Resolution はメイン） |
 | 2 | 最終ナビゲーション（タブ・ハンバーガー・単一ホーム等） |
 | 3 | Today's Brief の詳細レイアウト（Arrival / Departure の並び） |
 | 4 | Repeat indicator の表示形式 |

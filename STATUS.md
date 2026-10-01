@@ -53,6 +53,8 @@ ai-hospitality-os/
 3. **Step 1**: 永続化 + Guest / Reservation / Stay / Timeline の土台（`specs/phase-1-implementation.md` §12）
 4. **Step 2**: 標準 CSV インポート（`templates/standard-reservation-import.csv` を参照）
 
+**デバイス（決定済）**: メイン＝タブレット/PC。モバイル＝Brief 確認 + Timeline メモ（Resolution はメイン端末）→ [decision-log/20261001-device-strategy-phase1.md](decision-log/20261001-device-strategy-phase1.md)
+
 ---
 
 ## Cursor / Cloud Agent
