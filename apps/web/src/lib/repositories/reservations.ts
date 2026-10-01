@@ -134,11 +134,16 @@ export function listReservations() {
   return db.select().from(reservations).all();
 }
 
-export function countUnresolvedReservations(): number {
+export function listUnresolvedReservations() {
   const db = getDb();
   return db
     .select()
     .from(reservations)
     .all()
-    .filter((r) => r.guestResolutionStatus === "unresolved").length;
+    .filter((r) => r.guestResolutionStatus === "unresolved")
+    .sort((a, b) => a.checkInDate.localeCompare(b.checkInDate));
+}
+
+export function countUnresolvedReservations(): number {
+  return listUnresolvedReservations().length;
 }

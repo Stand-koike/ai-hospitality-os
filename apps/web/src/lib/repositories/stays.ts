@@ -33,3 +33,12 @@ export function listStaysForGuest(guestId: string) {
   const db = getDb();
   return db.select().from(stays).where(eq(stays.guestId, guestId)).all();
 }
+
+export function getStayByReservationId(reservationId: string) {
+  const db = getDb();
+  return db
+    .select()
+    .from(stays)
+    .where(eq(stays.reservationId, reservationId))
+    .get();
+}

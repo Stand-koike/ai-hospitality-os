@@ -4,4 +4,3 @@
 .env
 .env.local
 tsconfig.tsbuildinfo
-apps/web/tsconfig.tsbuildinfo
