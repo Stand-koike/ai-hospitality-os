@@ -12,7 +12,7 @@
 | フェーズ | 状態 | 説明 |
 |----------|------|------|
 | **Phase 0** プロダクト定義 | **完了** | `docs/`（01〜09）・`decision-log/` |
-| **Phase 1** 仕様 | **完了** | `specs/phase-1-implementation.md`・`phase-1-exit-criteria.md` |
+| **Phase 1** 仕様 | **完了（Ready）** | `specs/phase-1-implementation.md` §15 · `phase-1-exit-criteria.md` |
 | **Phase 1** 実装（`apps/web`） | **未着手** | コードはまだない。次は Implementation Order の Step 1 から |
 | パイロット施設 | 未決定 | 7 室・1 施設（名称・地域・OTA は未決） |
 
@@ -48,7 +48,7 @@ ai-hospitality-os/
 
 ## 次にやること（推奨順）
 
-1. **Minor Decision**（任意だが推奨）: 標準 CSV で `email` / `phone` を「少なくとも一方必須」にするか → `specs/phase-1-implementation.md` §13
+1. **Minor Decision** — **確定**（一方必須・hold なし）→ [decision-log/20261001-phase1-minor-decisions.md](decision-log/20261001-phase1-minor-decisions.md)。仕様 **Ready**
 2. **`apps/web` の技術選定**（DB・認証・AI は仕様上実装時決定可）
 3. **Step 1**: 永続化 + Guest / Reservation / Stay / Timeline の土台（`specs/phase-1-implementation.md` §12）
 4. **Step 2**: 標準 CSV インポート（`templates/standard-reservation-import.csv` を参照）

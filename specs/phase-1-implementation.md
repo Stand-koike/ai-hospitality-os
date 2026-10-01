@@ -76,8 +76,8 @@ DB 製品、ホスティング、認証プロバイダ、AI モデル/プロバ�
 | `guest_name` | **Yes** | string | 予約上の宿泊者名 → Reservation.`booker_name` | `山田 太郎` |
 | `check_in` | **Yes** | date (ISO `YYYY-MM-DD`) | チェックイン日 | `2026-10-01` |
 | `check_out` | **Yes** | date (ISO `YYYY-MM-DD`) | チェックアウト日（> check_in） | `2026-10-03` |
-| `email` | *Minor* | string | 照合・連絡 | `guest@example.com` |
-| `phone` | *Minor* | string | 照合・連絡 | `090-1234-5678` |
+| `email` | **Yes\*** | string | 照合・連絡（\*`phone` と合わせて **少なくとも一方必須**） | `guest@example.com` |
+| `phone` | **Yes\*** | string | 照合・連絡（\*`email` と合わせて **少なくとも一方必須**） | `090-1234-5678` |
 | `guest_name_kana` | No | string | 照合補助（日本語施設） | `ヤマダ タロウ` |
 | `guest_count` | No | integer | 人数 | `2` |
 | `room` | No | string | 部屋・タイプのラベル | `201` |
@@ -85,11 +85,11 @@ DB 製品、ホスティング、認証プロバイダ、AI モデル/プロバ�
 | `booked_at` | No | datetime | 予約日時（メタ） | `2026-09-15T10:00:00+09:00` |
 | `notes` | No | string | 取込時メモ（Reservation メタ、Timeline には自動で入れない） | `早朝到着` |
 
-**Minor Decision**: `email` / `phone` を「少なくとも一方必須」にするか「両方任意」にするか。Resolution 精度とのトレードオフ。
+**連絡先（確定）**: [decision-log/20261001-phase1-minor-decisions.md](../decision-log/20261001-phase1-minor-decisions.md) — `email` と `phone` の **少なくとも一方必須**。両方空は行エラー。
 
 ### 2.3 手動登録・表データ
 
-- 手動: 上表の **Required 列**と同じフィールドをフォームで入力。
+- 手動: 上表の **Required 列**と同じフィールドをフォームで入力（連絡先は一方必須）。
 - 表 UI: 行編集後、内部では **Canonical 行**としてバリデートし、CSV インポートと **同一パイプライン**に渡す。
 
 ---
@@ -207,7 +207,7 @@ Import / 手動作成（unresolved）
 
 ### 4.4 保留（hold）
 
-03 の「保留を MVP に含めるか」は **Minor Decision**。含めない場合: 未解決は Brief に残り続ける。
+**Phase 1 では hold UI なし**（[decision-log/20261001-phase1-minor-decisions.md](../decision-log/20261001-phase1-minor-decisions.md)）。未解決は Brief に残り続け、メイン端末で Resolution する。
 
 ---
 
@@ -335,13 +335,13 @@ Import / 手動作成（unresolved）
 
 ## 13. Decisions Still Open
 
-| 項目 | 影響 | 推奨 |
-|------|------|------|
-| email/phone CSV 必須 | Resolution 精度 | PO: 少なくとも一方必須 |
-| Resolution hold | UI 複雑度 | Phase 1 は **なし** |
-| `system_event` on link | 監査 | Phase 1 は **省略可** |
-| Stay `in_house` | 状態機械 | Phase 1 は planned/completed のみ |
-| 認証 | 全画面 | パイロットは単一共有アカウントでも可（実装時） |
+| 項目 | 影響 | Phase 1 の扱い |
+|------|------|----------------|
+| email/phone | Resolution 精度 | **確定**: 少なくとも一方必須（ADR 20261001） |
+| Resolution hold | UI 複雑度 | **確定**: なし（ADR 20261001） |
+| `system_event` on link | 監査 | **省略可** |
+| Stay `in_house` | 状態機械 | **省略**（planned/completed/cancelled） |
+| 認証 | 全画面 | **実装時決定**（単一共有アカウント可） |
 
 ---
 
@@ -353,22 +353,20 @@ Import / 手動作成（unresolved）
 | Guest Resolution 人確認 | **A** | |
 | Guest / Stay / Timeline | **A** | Stay 生成タイミングは **B**（本仕様で具体化） |
 | Paper フォーマット | **D** | 機能は Phase 1、レイアウトは最小 |
-| 03「連絡先必須未決定」 | **C** | Minor Decision |
+| 03「連絡先必須未決定」 | **A** | 一方必須で ADR 確定 |
 | 05 UI 詳細 | **B** | 本仕様が画面の実装正本 |
 
 ---
 
 ## 15. Phase 1 Implementation Readiness
 
-**判定: Minor Decision Required**
+**判定: Ready**
 
 **理由**
 
 - コア Vertical Slice・CSV スキーマ・upsert・データモデル・画面一覧・実装順は **実装開始可能な粒度**。
-- **ブロックしない未決**: DB/AI/認証プロバイダ。
-- **PO 確認が望ましい**: 標準 CSV の email/phone 必須、Resolution 保留の有无（§13）。
-
-Minor Decision 完了後、または「一方必須 + 保留なし」で **デフォルト採用**すれば **Ready** とみなす。
+- **Minor Decision 確定**（2026-10-01 PO）: 連絡先は email/phone **一方必須**、Resolution **hold なし** — [decision-log/20261001-phase1-minor-decisions.md](../decision-log/20261001-phase1-minor-decisions.md)。
+- **実装時決定でブロックしない**: DB / ホスティング / AI プロバイダ・モデル / 認証方式。
 
 ---
 
@@ -377,3 +375,4 @@ Minor Decision 完了後、または「一方必須 + 保留なし」で **デ�
 | 日付 | 内容 |
 |------|------|
 | 2026-09-30 | v1.0 初版（docs + ADR 整合、コードなし） |
+| 2026-10-01 | Minor Decision 確定、Readiness **Ready** |

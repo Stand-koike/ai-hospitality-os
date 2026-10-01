@@ -86,11 +86,13 @@ Phase 1 完了＝**Phase 2（Pilot）に入れる実装状態**。数値 KPI は
 
 ## 8. 実装開始前の Minor Decision（Exit とは別）
 
-以下は **Exit Criteria のブロック外**だが、実装直前に PO 確認が推奨される（[phase-1-implementation.md](./phase-1-implementation.md) §15）:
+**2026-10-01 PO 確定**（[decision-log/20261001-phase1-minor-decisions.md](../decision-log/20261001-phase1-minor-decisions.md)）:
 
-1. 標準 CSV の **email / phone の必須**（少なくとも一方必須 vs 両方任意）
-2. Guest Resolution の **保留（hold）** を Phase 1 UI に含めるか
+1. **email / phone** — 少なくとも一方必須
+2. **Resolution hold** — Phase 1 では含めない
+
+実装開始のブロックは解消。Readiness は [phase-1-implementation.md](./phase-1-implementation.md) §15 **Ready**。
 
 ---
 
-*更新: 2026-09-30*
+*更新: 2026-10-01*
