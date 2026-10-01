@@ -1,26 +1,44 @@
-# apps/web — Phase 1 MVP UI
+# apps/web — 藍 ai Phase 1 MVP
 
-**ステータス**: 未着手（スキャフォールド前）
+**ステータス**: Step 1 完了（永続化・CRUD 土台） / UI フローは Step 2〜
 
-## 目的
+## スタック
 
-Phase 1 の Vertical Slice:
+Next.js 15 · TypeScript · Drizzle ORM · SQLite（`data/lan-ai.db`）
 
-```text
-CSV / 表 / 手動 → Reservation Import → Guest Resolution
-→ Today's Brief → Guest Summary → Timeline
+→ [decision-log/20261001-phase1-tech-stack.md](../../decision-log/20261001-phase1-tech-stack.md)
+
+## セットアップ
+
+```bash
+cd apps/web
+cp .env.example .env   # 任意
+npm ci
+npm run db:migrate
 ```
 
-## 実装前に読むもの
+## 開発
 
-- [specs/phase-1-implementation.md](../../specs/phase-1-implementation.md)
-- [specs/phase-1-exit-criteria.md](../../specs/phase-1-exit-criteria.md)
-- [docs/05_UI_UX.md](../../docs/05_UI_UX.md)
+```bash
+npm run dev          # http://localhost:3000
+npm run verify:foundation
+curl -s http://localhost:3000/api/health
+```
 
-## 実装順（抜粋）
+## 実装順
 
-1. Foundation（永続化・エンティティ）
-2. Reservation Import（`templates/standard-reservation-import.csv`）
-3. Guest Resolution → Brief → Summary → Timeline
+[specs/phase-1-implementation.md](../../specs/phase-1-implementation.md) §12
 
-技術スタック（フレームワーク・DB・認証）は **リポジトリ未決定**。スキャフォールド時に `package.json` 等をここに追加する。
+| Step | 状態 |
+|------|------|
+| 1 Foundation | **完了**（`src/db`, `src/lib/repositories`） |
+| 2 Import + upsert | 未着手 |
+| 3–9 | 未着手 |
+
+## ディレクトリ
+
+```text
+src/db/           … スキーマ・マイグレーション
+src/lib/repositories/ … Guest / Reservation / Stay / Timeline CRUD
+src/app/          … Next.js UI（Brief 等は追加予定）
+```

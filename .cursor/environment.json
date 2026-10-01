@@ -1,4 +1,10 @@
 {
   "name": "藍 ai (ai-hospitality-os)",
-  "install": "test -f README.md\n test -f STATUS.md\n test -f specs/phase-1-implementation.md\n test -f templates/standard-reservation-import.csv"
+  "install": "test -f README.md\n test -f STATUS.md\n test -f specs/phase-1-implementation.md\n test -f templates/standard-reservation-import.csv\ncd apps/web && npm ci && npm run db:migrate",
+  "terminals": [
+    {
+      "name": "web-dev",
+      "command": "cd apps/web && npm run dev"
+    }
+  ]
 }

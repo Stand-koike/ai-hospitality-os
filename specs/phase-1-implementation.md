@@ -53,8 +53,6 @@ AI Summary と Paper Output は **コアフローの上**に実装する。
 
 DB 製品、ホスティング、認証プロバイダ、AI モデル/プロバイダ、マルチ Property、PMS 別マッピング、OTA/PMS API、高度権限、経営 DB — **実装時に決定可**。
 
-**実装開始前に PO 確認推奨（Minor Decision）**: CSV の email/phone 必須、Resolution 保留（hold）の有无。
-
 ---
 
 ## 2. Standard CSV Schema
