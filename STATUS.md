@@ -13,10 +13,10 @@
 |----------|------|------|
 | **Phase 0** プロダクト定義 | **完了** | `docs/`（01〜09）・`decision-log/` |
 | **Phase 1** 仕様 | **完了（Ready）** | `specs/phase-1-implementation.md` §15 · `phase-1-exit-criteria.md` |
-| **Phase 1** 実装（`apps/web`） | **Step 4 完了** | Import · Guest · Resolution。次は Step 5 Today's Brief |
+| **Phase 1** 実装（`apps/web`） | **Step 5 完了** | ホーム = Today's Brief。次は Step 6 Guest Summary |
 | パイロット施設 | 未決定 | 7 室・1 施設（名称・地域・OTA は未決） |
 
-**結論**: ドキュメントとリポジトリの土台は揃っている。**MVP のコードを書き始める段階**に入れる。
+**結論**: Phase 1 MVP は Step 5 まで実装済み。Guest Summary・Timeline・AI・印刷が残り。
 
 ---
 
@@ -30,7 +30,7 @@ ai-hospitality-os/
 ├── decision-log/      … ADR（予約取り込み・PMS 境界など）
 ├── specs/             … Phase 1 実装仕様・出口条件
 ├── templates/         … 標準 CSV テンプレ（インポート用）
-├── apps/web/          … Phase 1 UI（未実装・プレースホルダ）
+├── apps/web/          … Phase 1 MVP（Brief / Import / Resolution / Guests）
 └── .cursor/           … Cloud Agent 用環境設定
 ```
 
@@ -48,10 +48,10 @@ ai-hospitality-os/
 
 ## 次にやること（推奨順）
 
-1. **Minor Decision** — **確定**（一方必須・hold なし）→ [decision-log/20261001-phase1-minor-decisions.md](decision-log/20261001-phase1-minor-decisions.md)。仕様 **Ready**
-2. **`apps/web` の技術選定**（DB・認証・AI は仕様上実装時決定可）
-3. **Step 1**: 永続化 + Guest / Reservation / Stay / Timeline の土台（`specs/phase-1-implementation.md` §12）
-4. **Step 2**: 標準 CSV インポート（`templates/standard-reservation-import.csv` を参照）
+1. **Step 6**: Guest Summary（`specs/phase-1-implementation.md` §6）
+2. **Step 7**: Timeline 追記・表示
+3. **Step 8–9**: AI Summary · Paper Output
+4. 出口条件: [specs/phase-1-exit-criteria.md](specs/phase-1-exit-criteria.md)
 
 **デバイス（決定済）**: メイン＝タブレット/PC。モバイル＝Brief 確認 + Timeline メモ（Resolution はメイン端末）→ [decision-log/20261001-device-strategy-phase1.md](decision-log/20261001-device-strategy-phase1.md)
 
