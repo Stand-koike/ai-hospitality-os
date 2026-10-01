@@ -1,0 +1,4 @@
+{
+  "name": "藍 ai (ai-hospitality-os)",
+  "install": "test -f README.md\n test -f STATUS.md\n test -f specs/phase-1-implementation.md\n test -f templates/standard-reservation-import.csv"
+}

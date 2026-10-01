@@ -26,6 +26,7 @@ ai-hospitality-os/
 ├── docs/                    # 01–09 プロダクト正本
 ├── decision-log/            # ADR
 ├── specs/                   # Phase 1 Implementation Spec 等
+├── templates/               # 標準 CSV 等
 ├── apps/                    # Phase 1 Build 開始時
 │   └── web/                 # MVP UI（技術選定は別途）
 ├── packages/                # （将来）共有型・CSV テンプレ等

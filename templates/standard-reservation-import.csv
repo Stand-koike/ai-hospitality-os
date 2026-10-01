@@ -1,0 +1,2 @@
+external_reservation_id,guest_name,check_in,check_out,email,phone,guest_name_kana,guest_count,room,source,booked_at,notes
+BK-2026-0042,山田 太郎,2026-10-01,2026-10-03,guest@example.com,090-1234-5678,ヤマダ タロウ,2,201,楽天,2026-09-15T10:00:00+09:00,早朝到着
