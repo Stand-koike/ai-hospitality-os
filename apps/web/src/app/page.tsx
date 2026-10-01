@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { countUnresolvedReservations } from "@/lib/repositories/reservations";
 
 export default function HomePage() {
+  const unresolved = countUnresolvedReservations();
+
   return (
     <main className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12">
       <header>
@@ -9,18 +12,23 @@ export default function HomePage() {
           Today&apos;s Brief
         </h1>
         <p className="mt-2 text-zinc-600">
-          Step 1 完了: 永続化の土台を用意しました。Brief / Import / Resolution
-          UI は Step 2 以降で追加します。
+          Step 2: 予約の取り込み（CSV / 手動 / 表）が利用できます。Brief 画面は
+          Step 5 で拡張します。
         </p>
       </header>
+      {unresolved > 0 && (
+        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          未 Resolution の予約: <strong>{unresolved}</strong> 件（Resolution UI
+          は Step 4）
+        </p>
+      )}
       <section className="rounded-xl border border-zinc-200 bg-white p-4 text-sm">
-        <h2 className="font-medium">開発</h2>
-        <ul className="mt-2 list-inside list-disc text-zinc-600">
+        <h2 className="font-medium">メニュー</h2>
+        <ul className="mt-2 space-y-2">
           <li>
-            <Link className="text-blue-700 underline" href="/api/health">
-              /api/health
+            <Link className="text-blue-700 underline" href="/import">
+              予約の取り込み
             </Link>
-            — DB 接続確認
           </li>
         </ul>
       </section>

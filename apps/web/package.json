@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "typecheck": "tsc --noEmit",
-    "verify:foundation": "tsx scripts/verify-foundation.ts"
+    "verify:foundation": "tsx scripts/verify-foundation.ts",
+    "verify:import": "tsx scripts/verify-import.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.10.0",

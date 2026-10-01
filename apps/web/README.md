@@ -31,8 +31,8 @@ curl -s http://localhost:3000/api/health
 
 | Step | 状態 |
 |------|------|
-| 1 Foundation | **完了**（`src/db`, `src/lib/repositories`） |
-| 2 Import + upsert | 未着手 |
+| 1 Foundation | **完了** |
+| 2 Import + upsert | **完了**（`/import`, `src/lib/import`） |
 | 3–9 | 未着手 |
 
 ## ディレクトリ

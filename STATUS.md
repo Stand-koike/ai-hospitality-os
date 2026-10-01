@@ -13,7 +13,7 @@
 |----------|------|------|
 | **Phase 0** プロダクト定義 | **完了** | `docs/`（01〜09）・`decision-log/` |
 | **Phase 1** 仕様 | **完了（Ready）** | `specs/phase-1-implementation.md` §15 · `phase-1-exit-criteria.md` |
-| **Phase 1** 実装（`apps/web`） | **Step 1 完了** | Next.js + SQLite 土台。次は Step 2 CSV Import |
+| **Phase 1** 実装（`apps/web`） | **Step 2 完了** | CSV / 手動 / 表 + upsert。次は Step 3–4 Guest & Resolution |
 | パイロット施設 | 未決定 | 7 室・1 施設（名称・地域・OTA は未決） |
 
 **結論**: ドキュメントとリポジトリの土台は揃っている。**MVP のコードを書き始める段階**に入れる。
